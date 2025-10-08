@@ -36,7 +36,7 @@
 				class="rounded-lg border-l-2 bg-amber-50 px-4 py-2 text-sm font-medium text-black shadow-lg"
 				class:border-green-500={t.type === 'success'}
 				class:border-red-400={t.type === 'error'}
-				class:border-blue-500={t.type === 'info'}
+				class:border-amber-500={t.type === 'info'}
 			>
 				{t.message}
 			</div>

@@ -129,7 +129,7 @@
 							class="flex items-center gap-3 rounded-xl bg-white/80 p-4 shadow-md backdrop-blur-sm"
 						>
 							<div
-								class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-400 to-indigo-500"
+								class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-indigo-500"
 							>
 								<svg
 									class="h-6 w-6 text-white"
@@ -173,12 +173,46 @@
 
 				<!-- Right Section - Form -->
 				<section class="w-full">
-					<form on:submit={handlesubmit}>
-						<input type="text" placeholder="Your Name" bind:value={name} />
-						<input type="email" placeholder="Email address" bind:value={email} />
-						<input type="number" bind:value={phonenumber} placeholder="Phone Number" />
-						<textarea placeholder="Write a review...." bind:value={review}></textarea>
-						<button type="submit">Submit and Download</button>
+					<form
+						on:submit={handlesubmit}
+						class="mx-auto flex w-full max-w-md flex-col gap-4 rounded-2xl border border-gray-100 bg-white/40 p-6 shadow-2xl"
+					>
+						<h2 class="mb-2 text-center text-2xl font-semibold text-gray-800">Leave a Review</h2>
+
+						<input
+							type="text"
+							placeholder="Your Name"
+							bind:value={name}
+							class="w-full rounded-lg border border-gray-300 px-4 py-2 transition focus:ring-2 focus:ring-amber-500 focus:outline-none"
+						/>
+
+						<input
+							type="email"
+							placeholder="Email Address"
+							bind:value={email}
+							class="w-full rounded-lg border border-gray-300 px-4 py-2 transition focus:ring-2 focus:ring-amber-500 focus:outline-none"
+						/>
+
+						<input
+							type="number"
+							placeholder="Phone Number"
+							bind:value={phonenumber}
+							class="w-full rounded-lg border border-gray-300 px-4 py-2 transition focus:ring-2 focus:ring-amber-500 focus:outline-none"
+						/>
+
+						<textarea
+							rows="4"
+							placeholder="Write your review..."
+							bind:value={review}
+							class="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 transition focus:ring-2 focus:ring-amber-500 focus:outline-none"
+						></textarea>
+
+						<button
+							type="submit"
+							class="w-full rounded-lg bg-amber-600 py-2 font-semibold text-white shadow-md transition-transform hover:scale-[1.02] hover:bg-amber-700 active:scale-95"
+						>
+							Submit and Download
+						</button>
 					</form>
 
 					<!-- Mobile Book Preview -->

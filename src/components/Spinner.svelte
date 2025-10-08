@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let color: string = 'border-blue-500'; // Change spinner color
+	export let color: string = 'border-amber-500'; // Change spinner color
 </script>
 
 <main class="flex flex-col items-center justify-center text-gray-700">
