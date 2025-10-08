@@ -31,7 +31,8 @@
 			}
 
 			const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
-			if (res.data.success) {
+			const data = res.data;
+			if (data.success) {
 				const link = document.createElement('a');
 				link.href = pdfUrl;
 				link.download = 'korean_recipe_book.pdf';
@@ -191,7 +192,7 @@
 						</div>
 
 						<!-- Form -->
-						<form class="space-y-5">
+						<form class="space-y-5" on:submit={handlesubmit}>
 							<!-- Name Input -->
 							<div class="relative">
 								<label for="name" class="mb-2 block text-sm font-semibold text-gray-700">
@@ -296,8 +297,6 @@
 							<button
 								type="submit"
 								class="flex w-full transform items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4 font-bold text-white shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:from-orange-600 hover:to-red-600 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-70"
-								disabled={Loading}
-								on:click={handlesubmit}
 							>
 								{#if Loading}
 									<Spinner />
