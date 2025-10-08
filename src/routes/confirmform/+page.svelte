@@ -13,47 +13,65 @@
 	const pdfUrl = '/book.pdf';
 
 	const handlesubmit = async () => {
-		try {
-			Loading = true;
-			error = '';
-			success = '';
-
-			setTimeout(() => {
-				success = '';
-				error = '';
-			}, 4000);
-
-			if (!name || !email || !phonenumber || !review) {
-				toast.error('Please fill the details');
-				error = ' Please fill the details.';
-				Loading = false;
-				return;
-			}
-
-			const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
-			const data = res.data;
-			if (data.success) {
-				const link = document.createElement('a');
-				link.href = pdfUrl;
-				link.download = 'korean_recipe_book.pdf';
-				link.click();
-			}
-			console.log(res.data);
-
-			toast.success('Submitted successfully');
-			success = '✅ Form submitted successfully! Your data has been saved.';
-
-			name = '';
-			email = '';
-			phonenumber = '';
-			review = '';
-		} catch (error) {
-			console.log(error);
-			error = '❌ Something went wrong. Please try again.';
-			toast.error('Submission failed');
-		} finally {
-			Loading = false;
+		const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
+		const data = res.data;
+		if (data.success) {
+			const link = document.createElement('a');
+			link.href = pdfUrl;
+			link.download = 'korean_recipe_book.pdf';
+			link.click();
 		}
+		console.log(res.data);
+
+		toast.success('Submitted successfully');
+		success = '✅ Form submitted successfully! Your data has been saved.';
+
+		name = '';
+		email = '';
+		phonenumber = '';
+		review = '';
+
+		// try {
+		// 	Loading = true;
+		// 	error = '';
+		// 	success = '';
+
+		// 	setTimeout(() => {
+		// 		success = '';
+		// 		error = '';
+		// 	}, 4000);
+
+		// 	if (!name || !email || !phonenumber || !review) {
+		// 		toast.error('Please fill the details');
+		// 		error = ' Please fill the details.';
+		// 		Loading = false;
+		// 		return;
+		// 	}
+
+		// 	const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
+		// 	const data = res.data;
+		// 	if (data.success) {
+		// 		const link = document.createElement('a');
+		// 		link.href = pdfUrl;
+		// 		link.download = 'korean_recipe_book.pdf';
+		// 		link.click();
+		// 	}
+		// 	console.log(res.data);
+
+		// 	toast.success('Submitted successfully');
+		// 	success = '✅ Form submitted successfully! Your data has been saved.';
+
+		// 	name = '';
+		// 	email = '';
+		// 	phonenumber = '';
+		// 	review = '';
+		// } catch (error) {
+		// 	console.log(error);
+		// 	error = '❌ Something went wrong. Please try again.';
+		// 	toast.error('Submission failed');
+		// } finally {
+		// 	Loading = false;
+		// }
 	};
 </script>
 
