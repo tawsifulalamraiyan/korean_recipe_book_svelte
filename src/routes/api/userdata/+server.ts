@@ -11,15 +11,25 @@ export async function GET() {
 }
 
 export async function POST({ request }) {
-	const { name, email, phonenumber, review } = await request.json();
+	try {
+		const data = await request.json();
+		const { name, email, phonenumber, review } = data;
 
-	if (!name || !email || !phonenumber || !review) {
-		return json({ Error: 'All field are required' });
+		// Basic validation
+		if (!name || !email || !phonenumber) {
+			return json({ error: 'All required fields must be filled' }, { status: 400 });
+		}
+
+		await db.insert(racipebook).values({
+			name,
+			email,
+			phonenumber,
+			review
+		});
+
+		return json({ success: true });
+	} catch (err) {
+		console.error('Error saving user data:', err);
+		return json({ error: 'Internal server error' }, { status: 500 });
 	}
-
-	const data = { name, email, phonenumber, review };
-	console.log(data);
-	const newSubmit = await db.insert(racipebook).values({ name, email, phonenumber, review });
-
-	return json(newSubmit);
 }
