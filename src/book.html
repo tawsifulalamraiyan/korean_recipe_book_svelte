@@ -1,0 +1,1020 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Korean Cookbook - 10 Popular Recipes</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+		<style>
+			@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;700&display=swap');
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Noto Sans KR', sans-serif;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				padding: 20px;
+			}
+
+			.download-btn {
+				position: fixed;
+				top: 20px;
+				right: 20px;
+				background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+				color: white;
+				border: none;
+				padding: 15px 30px;
+				border-radius: 50px;
+				font-size: 16px;
+				font-weight: bold;
+				cursor: pointer;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+				z-index: 1000;
+				transition: transform 0.3s;
+			}
+
+			.download-btn:hover {
+				transform: scale(1.05);
+			}
+
+			#cookbook {
+				max-width: 210mm;
+				margin: 0 auto;
+				background: white;
+				box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+			}
+
+			.page {
+				padding: 20mm;
+				page-break-after: always;
+				min-height: 297mm;
+				position: relative;
+			}
+
+			.page:last-child {
+				page-break-after: auto;
+			}
+
+			/* Cover Page */
+			.cover {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.cover::before {
+				content: '';
+				position: absolute;
+				top: -50%;
+				left: -50%;
+				width: 200%;
+				height: 200%;
+				background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+				background-size: 50px 50px;
+				animation: movePattern 20s linear infinite;
+			}
+
+			@keyframes movePattern {
+				0% {
+					transform: translate(0, 0);
+				}
+				100% {
+					transform: translate(50px, 50px);
+				}
+			}
+
+			.cover-content {
+				position: relative;
+				z-index: 1;
+			}
+
+			.cover h1 {
+				font-family: 'Noto Serif KR', serif;
+				font-size: 72px;
+				font-weight: 900;
+				margin-bottom: 20px;
+				text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+			}
+
+			.cover .subtitle {
+				font-size: 28px;
+				margin-bottom: 40px;
+				opacity: 0.9;
+			}
+
+			.cover .emoji {
+				font-size: 100px;
+				margin: 30px 0;
+			}
+
+			.cover .tagline {
+				font-size: 20px;
+				max-width: 600px;
+				line-height: 1.6;
+				margin-top: 40px;
+			}
+
+			/* Table of Contents */
+			.toc {
+				background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+			}
+
+			.toc h2 {
+				font-family: 'Noto Serif KR', serif;
+				font-size: 48px;
+				color: #c94b4b;
+				margin-bottom: 40px;
+				text-align: center;
+			}
+
+			.toc-list {
+				list-style: none;
+			}
+
+			.toc-item {
+				background: white;
+				margin: 15px 0;
+				padding: 20px;
+				border-radius: 15px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+			}
+
+			.toc-item span:first-child {
+				font-weight: bold;
+				font-size: 18px;
+				color: #333;
+			}
+
+			.toc-item span:last-child {
+				color: #c94b4b;
+				font-weight: bold;
+			}
+
+			/* Recipe Page */
+			.recipe {
+				background: #fff9f0;
+			}
+
+			.recipe-header {
+				text-align: center;
+				margin-bottom: 40px;
+				position: relative;
+			}
+
+			.recipe-number {
+				display: inline-block;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				padding: 10px 30px;
+				border-radius: 50px;
+				font-size: 16px;
+				font-weight: bold;
+				margin-bottom: 20px;
+			}
+
+			.recipe h2 {
+				font-family: 'Noto Serif KR', serif;
+				font-size: 42px;
+				color: #2d3748;
+				margin-bottom: 10px;
+			}
+
+			.recipe h3 {
+				font-size: 24px;
+				color: #c94b4b;
+				margin-bottom: 20px;
+			}
+
+			.recipe-meta {
+				display: flex;
+				justify-content: center;
+				gap: 30px;
+				margin: 20px 0;
+				flex-wrap: wrap;
+			}
+
+			.meta-item {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+				background: white;
+				padding: 10px 20px;
+				border-radius: 25px;
+				box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			.meta-item span:first-child {
+				font-size: 20px;
+			}
+
+			.section {
+				margin: 30px 0;
+			}
+
+			.section h4 {
+				font-family: 'Noto Serif KR', serif;
+				font-size: 24px;
+				color: #c94b4b;
+				margin-bottom: 15px;
+				padding-bottom: 10px;
+				border-bottom: 3px solid #ffecd2;
+			}
+
+			.ingredients-grid {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 10px;
+			}
+
+			.ingredient {
+				background: white;
+				padding: 12px;
+				border-radius: 10px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+				font-size: 14px;
+			}
+
+			.steps {
+				list-style: none;
+				counter-reset: step-counter;
+			}
+
+			.step {
+				counter-increment: step-counter;
+				margin-bottom: 20px;
+				position: relative;
+				padding-left: 60px;
+				line-height: 1.6;
+			}
+
+			.step::before {
+				content: counter(step-counter);
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 40px;
+				height: 40px;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: bold;
+				font-size: 18px;
+			}
+
+			.tip-box {
+				background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+				padding: 20px;
+				border-radius: 15px;
+				margin-top: 20px;
+				border-left: 5px solid #c94b4b;
+			}
+
+			.tip-box strong {
+				color: #c94b4b;
+				font-size: 18px;
+			}
+
+			/* Back Cover */
+			.back-cover {
+				background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+				color: white;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				text-align: center;
+			}
+
+			.back-cover h2 {
+				font-family: 'Noto Serif KR', serif;
+				font-size: 48px;
+				margin-bottom: 30px;
+			}
+
+			.back-cover p {
+				font-size: 20px;
+				line-height: 1.8;
+				max-width: 600px;
+				margin: 20px 0;
+			}
+
+			.social-links {
+				display: flex;
+				gap: 20px;
+				margin-top: 40px;
+			}
+
+			.social-link {
+				width: 50px;
+				height: 50px;
+				background: white;
+				color: #667eea;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 24px;
+			}
+
+			@media print {
+				body {
+					background: white;
+					padding: 0;
+				}
+				.download-btn {
+					display: none;
+				}
+				#cookbook {
+					box-shadow: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<button class="download-btn" onclick="downloadPDF()">📥 Download PDF</button>
+
+		<div id="cookbook">
+			<!-- Cover Page -->
+			<div class="page cover">
+				<div class="cover-content">
+					<div class="emoji">🍜</div>
+					<h1>한국 요리</h1>
+					<div class="subtitle">Korean Cookbook</div>
+					<div class="emoji">🥢</div>
+					<p class="tagline">
+						Discover the authentic flavors of Korea with 10 most popular and beloved recipes. From
+						sizzling BBQ to comforting soups, master the art of Korean cuisine at home.
+					</p>
+				</div>
+			</div>
+
+			<!-- Table of Contents -->
+			<div class="page toc">
+				<h2>목차 • Contents</h2>
+				<ul class="toc-list">
+					<li class="toc-item">
+						<span>🍖 1. Bulgogi (불고기)</span>
+						<span>Page 3</span>
+					</li>
+					<li class="toc-item">
+						<span>🍚 2. Kimchi Fried Rice (김치볶음밥)</span>
+						<span>Page 4</span>
+					</li>
+					<li class="toc-item">
+						<span>🥘 3. Bibimbap (비빔밥)</span>
+						<span>Page 5</span>
+					</li>
+					<li class="toc-item">
+						<span>🍲 4. Korean Fried Chicken (양념치킨)</span>
+						<span>Page 6</span>
+					</li>
+					<li class="toc-item">
+						<span>🍜 5. Japchae (잡채)</span>
+						<span>Page 7</span>
+					</li>
+					<li class="toc-item">
+						<span>🥟 6. Tteokbokki (떡볶이)</span>
+						<span>Page 8</span>
+					</li>
+					<li class="toc-item">
+						<span>🍵 7. Kimchi Jjigae (김치찌개)</span>
+						<span>Page 9</span>
+					</li>
+					<li class="toc-item">
+						<span>🍱 8. Korean Pancakes (파전)</span>
+						<span>Page 10</span>
+					</li>
+					<li class="toc-item">
+						<span>🥩 9. Galbi (갈비)</span>
+						<span>Page 11</span>
+					</li>
+					<li class="toc-item">
+						<span>🍜 10. Jjajangmyeon (짜장면)</span>
+						<span>Page 12</span>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Recipe 1: Bulgogi -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #1</div>
+					<h2>불고기</h2>
+					<h3>Bulgogi (Korean BBQ Beef)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 30 mins</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Easy</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 500g beef sirloin, thinly sliced</div>
+						<div class="ingredient">• 1 onion, sliced</div>
+						<div class="ingredient">• 4 tbsp soy sauce</div>
+						<div class="ingredient">• 2 tbsp sugar</div>
+						<div class="ingredient">• 2 tbsp sesame oil</div>
+						<div class="ingredient">• 4 garlic cloves, minced</div>
+						<div class="ingredient">• 1 tbsp ginger, grated</div>
+						<div class="ingredient">• 2 green onions, chopped</div>
+						<div class="ingredient">• 1 tbsp sesame seeds</div>
+						<div class="ingredient">• Black pepper to taste</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							In a large bowl, mix soy sauce, sugar, sesame oil, garlic, ginger, and black pepper to
+							create the marinade.
+						</li>
+						<li class="step">
+							Add the sliced beef and onions to the marinade. Mix well and let it marinate for at
+							least 20 minutes (or overnight for best results).
+						</li>
+						<li class="step">
+							Heat a large skillet or grill pan over high heat. Add the marinated beef and cook for
+							5-7 minutes, stirring occasionally.
+						</li>
+						<li class="step">
+							Once the beef is cooked through and caramelized, add green onions and cook for another
+							minute.
+						</li>
+						<li class="step">
+							Garnish with sesame seeds and serve hot with steamed rice and kimchi.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> For the most tender bulgogi, freeze the beef for 30 minutes
+					before slicing. This makes it easier to cut paper-thin slices!
+				</div>
+			</div>
+
+			<!-- Recipe 2: Kimchi Fried Rice -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #2</div>
+					<h2>김치볶음밥</h2>
+					<h3>Kimchi Fried Rice</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 15 mins</div>
+						<div class="meta-item"><span>👥</span> 2 servings</div>
+						<div class="meta-item"><span>🔥</span> Very Easy</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 2 cups cooked rice (day-old works best)</div>
+						<div class="ingredient">• 1 cup kimchi, chopped</div>
+						<div class="ingredient">• 100g pork belly or bacon, diced</div>
+						<div class="ingredient">• 2 eggs</div>
+						<div class="ingredient">• 2 tbsp kimchi juice</div>
+						<div class="ingredient">• 1 tbsp gochugaru (Korean chili flakes)</div>
+						<div class="ingredient">• 2 tbsp vegetable oil</div>
+						<div class="ingredient">• 1 green onion, chopped</div>
+						<div class="ingredient">• 1 tbsp sesame oil</div>
+						<div class="ingredient">• Roasted seaweed for garnish</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							Heat vegetable oil in a large wok or skillet over medium-high heat. Cook the pork
+							belly until crispy.
+						</li>
+						<li class="step">
+							Add chopped kimchi and stir-fry for 2-3 minutes until slightly caramelized.
+						</li>
+						<li class="step">Add the rice, breaking up any clumps. Stir-fry for 3-4 minutes.</li>
+						<li class="step">
+							Add kimchi juice, gochugaru, and mix well. Cook for another 2 minutes.
+						</li>
+						<li class="step">
+							Push the rice to the side and fry eggs sunny-side up in the same pan.
+						</li>
+						<li class="step">
+							Drizzle with sesame oil, garnish with green onions and seaweed. Top with fried eggs
+							and serve immediately.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Use day-old rice for the best texture. Fresh rice can become
+					mushy when fried!
+				</div>
+			</div>
+
+			<!-- Recipe 3: Bibimbap -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #3</div>
+					<h2>비빔밥</h2>
+					<h3>Bibimbap (Mixed Rice Bowl)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 45 mins</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Medium</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 4 cups cooked rice</div>
+						<div class="ingredient">• 200g beef, thinly sliced</div>
+						<div class="ingredient">• 1 carrot, julienned</div>
+						<div class="ingredient">• 1 zucchini, julienned</div>
+						<div class="ingredient">• 100g spinach</div>
+						<div class="ingredient">• 100g bean sprouts</div>
+						<div class="ingredient">• 4 eggs</div>
+						<div class="ingredient">• 4 tbsp gochujang (Korean chili paste)</div>
+						<div class="ingredient">• 2 tbsp sesame oil</div>
+						<div class="ingredient">• Sesame seeds & seaweed for garnish</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							Marinate beef with 1 tbsp soy sauce, 1 tsp sesame oil, and minced garlic. Set aside.
+						</li>
+						<li class="step">
+							Blanch spinach and bean sprouts separately in boiling water for 2 minutes. Drain and
+							season with salt and sesame oil.
+						</li>
+						<li class="step">
+							Sauté carrot and zucchini separately with a pinch of salt until tender.
+						</li>
+						<li class="step">
+							Cook marinated beef in a hot pan until done. Fry eggs sunny-side up.
+						</li>
+						<li class="step">
+							In bowls, place hot rice at the bottom. Arrange all vegetables and beef in sections on
+							top.
+						</li>
+						<li class="step">
+							Place a fried egg in the center. Add a dollop of gochujang, drizzle with sesame oil,
+							and sprinkle sesame seeds.
+						</li>
+						<li class="step">Mix everything together before eating. Enjoy!</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Use a hot stone bowl (dolsot) if you have one for crispy rice
+					at the bottom!
+				</div>
+			</div>
+
+			<!-- Recipe 4: Korean Fried Chicken -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #4</div>
+					<h2>양념치킨</h2>
+					<h3>Korean Fried Chicken</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 1 hour</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Medium</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 1kg chicken wings or drumsticks</div>
+						<div class="ingredient">• 1 cup potato starch or cornstarch</div>
+						<div class="ingredient">• 4 tbsp gochujang</div>
+						<div class="ingredient">• 3 tbsp honey</div>
+						<div class="ingredient">• 2 tbsp soy sauce</div>
+						<div class="ingredient">• 3 garlic cloves, minced</div>
+						<div class="ingredient">• 1 tbsp rice vinegar</div>
+						<div class="ingredient">• 1 tbsp sesame seeds</div>
+						<div class="ingredient">• Oil for deep frying</div>
+						<div class="ingredient">• Salt & pepper to taste</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">Season chicken with salt and pepper. Let it sit for 15 minutes.</li>
+						<li class="step">Coat chicken pieces thoroughly with potato starch.</li>
+						<li class="step">
+							Heat oil to 350°F (175°C). Fry chicken for 10-12 minutes until golden and crispy.
+							Drain on paper towels.
+						</li>
+						<li class="step">
+							In a saucepan, mix gochujang, honey, soy sauce, garlic, and vinegar. Simmer for 3
+							minutes until thickened.
+						</li>
+						<li class="step">Toss the fried chicken in the sauce until evenly coated.</li>
+						<li class="step">
+							Garnish with sesame seeds and serve immediately with pickled radish.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Double-fry your chicken! Fry once, rest for 5 minutes, then
+					fry again for extra crispiness!
+				</div>
+			</div>
+
+			<!-- Recipe 5: Japchae -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #5</div>
+					<h2>잡채</h2>
+					<h3>Japchae (Stir-Fried Glass Noodles)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 40 mins</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Medium</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 200g sweet potato glass noodles</div>
+						<div class="ingredient">• 200g beef, thinly sliced</div>
+						<div class="ingredient">• 1 carrot, julienned</div>
+						<div class="ingredient">• 1 onion, sliced</div>
+						<div class="ingredient">• 100g spinach</div>
+						<div class="ingredient">• 5 shiitake mushrooms, sliced</div>
+						<div class="ingredient">• 4 tbsp soy sauce</div>
+						<div class="ingredient">• 2 tbsp sugar</div>
+						<div class="ingredient">• 3 tbsp sesame oil</div>
+						<div class="ingredient">• Sesame seeds for garnish</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							Boil glass noodles for 6-7 minutes until tender. Drain and cut into shorter lengths.
+							Toss with 1 tbsp sesame oil.
+						</li>
+						<li class="step">
+							Marinate beef with 1 tbsp soy sauce and 1 tsp sugar for 10 minutes.
+						</li>
+						<li class="step">
+							Blanch spinach in boiling water for 1 minute. Drain and season with salt and sesame
+							oil.
+						</li>
+						<li class="step">
+							Stir-fry each vegetable separately (carrots, onions, mushrooms) with a bit of oil and
+							salt. Set aside.
+						</li>
+						<li class="step">Cook marinated beef until done.</li>
+						<li class="step">
+							In a large pan, combine noodles, all vegetables, and beef. Add remaining soy sauce,
+							sugar, and sesame oil. Toss well over medium heat for 2-3 minutes.
+						</li>
+						<li class="step">Garnish with sesame seeds and serve warm or at room temperature.</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Don't overcook the noodles! They should be chewy and
+					translucent, not mushy.
+				</div>
+			</div>
+
+			<!-- Recipe 6: Tteokbokki -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #6</div>
+					<h2>떡볶이</h2>
+					<h3>Tteokbokki (Spicy Rice Cakes)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 25 mins</div>
+						<div class="meta-item"><span>👥</span> 3 servings</div>
+						<div class="meta-item"><span>🔥</span> Easy</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 500g Korean rice cakes (tteok)</div>
+						<div class="ingredient">• 100g fish cakes, sliced</div>
+						<div class="ingredient">• 2 green onions, chopped</div>
+						<div class="ingredient">• 3 tbsp gochujang</div>
+						<div class="ingredient">• 1 tbsp gochugaru</div>
+						<div class="ingredient">• 2 tbsp sugar</div>
+						<div class="ingredient">• 1 tbsp soy sauce</div>
+						<div class="ingredient">• 2 cups water or dashi stock</div>
+						<div class="ingredient">• 2 garlic cloves, minced</div>
+						<div class="ingredient">• 1 boiled egg & sesame seeds</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							If using frozen rice cakes, soak them in cold water for 10 minutes.
+						</li>
+						<li class="step">
+							In a large pan, combine water, gochujang, gochugaru, sugar, soy sauce, and garlic.
+							Bring to a boil.
+						</li>
+						<li class="step">
+							Add rice cakes and fish cakes. Simmer over medium heat for 8-10 minutes, stirring
+							occasionally, until the sauce thickens and rice cakes are soft.
+						</li>
+						<li class="step">Add green onions and cook for another minute.</li>
+						<li class="step">Serve hot, topped with a boiled egg and sesame seeds.</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Add mozzarella cheese on top and let it melt for a trendy
+					"cheese tteokbokki" variation!
+				</div>
+			</div>
+
+			<!-- Recipe 7: Kimchi Jjigae -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #7</div>
+					<h2>김치찌개</h2>
+					<h3>Kimchi Jjigae (Kimchi Stew)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 30 mins</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Easy</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 2 cups aged kimchi, chopped</div>
+						<div class="ingredient">• 200g pork belly, sliced</div>
+						<div class="ingredient">• 1 block firm tofu, cubed</div>
+						<div class="ingredient">• 1 onion, sliced</div>
+						<div class="ingredient">• 2 green onions, chopped</div>
+						<div class="ingredient">• 3 cups water or anchovy stock</div>
+						<div class="ingredient">• 2 tbsp gochugaru</div>
+						<div class="ingredient">• 1 tbsp gochujang</div>
+						<div class="ingredient">• 2 garlic cloves, minced</div>
+						<div class="ingredient">• 1 tbsp fish sauce</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							In a pot, cook pork belly over medium heat until it releases some fat.
+						</li>
+						<li class="step">
+							Add kimchi and stir-fry for 3-4 minutes until slightly caramelized.
+						</li>
+						<li class="step">
+							Add water, gochugaru, gochujang, garlic, and fish sauce. Bring to a boil.
+						</li>
+						<li class="step">Reduce heat and simmer for 15 minutes.</li>
+						<li class="step">Add tofu and onion. Simmer for another 5 minutes.</li>
+						<li class="step">
+							Add green onions and cook for 1 minute. Serve hot with steamed rice.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Use well-fermented, sour kimchi for the best depth of flavor!
+				</div>
+			</div>
+
+			<!-- Recipe 8: Korean Pancakes -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #8</div>
+					<h2>파전</h2>
+					<h3>Pajeon (Korean Scallion Pancakes)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 20 mins</div>
+						<div class="meta-item"><span>👥</span> 2 servings</div>
+						<div class="meta-item"><span>🔥</span> Easy</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 1 cup all-purpose flour</div>
+						<div class="ingredient">• 1 egg</div>
+						<div class="ingredient">• 1 cup cold water</div>
+						<div class="ingredient">• 1 bunch green onions, cut into 3-inch pieces</div>
+						<div class="ingredient">• 1/2 red chili, sliced</div>
+						<div class="ingredient">• 100g seafood mix (optional)</div>
+						<div class="ingredient">• 3 tbsp vegetable oil</div>
+						<div class="ingredient">• Salt to taste</div>
+						<div class="ingredient">• Soy sauce & vinegar for dipping</div>
+						<div class="ingredient">• 1 tsp sesame seeds</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							In a bowl, mix flour, egg, cold water, and a pinch of salt to make a thin batter.
+						</li>
+						<li class="step">
+							Arrange green onions in a single layer in the batter. Add red chili and seafood if
+							using.
+						</li>
+						<li class="step">Heat 2 tbsp oil in a large non-stick pan over medium-high heat.</li>
+						<li class="step">
+							Pour the batter into the pan, spreading it evenly. Cook for 3-4 minutes until the
+							bottom is golden and crispy.
+						</li>
+						<li class="step">
+							Flip the pancake carefully and add more oil around the edges. Cook for another 3
+							minutes.
+						</li>
+						<li class="step">Cut into pieces and serve hot with soy-vinegar dipping sauce.</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> The key to crispy pajeon is using very cold water in the
+					batter and plenty of oil while cooking!
+				</div>
+			</div>
+
+			<!-- Recipe 9: Galbi -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #9</div>
+					<h2>갈비</h2>
+					<h3>Galbi (Korean BBQ Short Ribs)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 4 hours (with marinating)</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Medium</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 1kg beef short ribs, cut flanken-style</div>
+						<div class="ingredient">• 1/2 cup soy sauce</div>
+						<div class="ingredient">• 1/4 cup brown sugar</div>
+						<div class="ingredient">• 3 tbsp sesame oil</div>
+						<div class="ingredient">• 6 garlic cloves, minced</div>
+						<div class="ingredient">• 1 Asian pear, grated</div>
+						<div class="ingredient">• 2 tbsp mirin</div>
+						<div class="ingredient">• 1 tbsp ginger, grated</div>
+						<div class="ingredient">• 2 green onions, chopped</div>
+						<div class="ingredient">• Black pepper & sesame seeds</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							In a large bowl, combine soy sauce, brown sugar, sesame oil, garlic, grated pear,
+							mirin, ginger, and green onions to make the marinade.
+						</li>
+						<li class="step">
+							Add short ribs to the marinade, ensuring all pieces are well coated. Cover and
+							refrigerate for at least 3 hours (overnight is best).
+						</li>
+						<li class="step">Preheat grill or grill pan to medium-high heat.</li>
+						<li class="step">
+							Grill the ribs for 3-4 minutes per side until caramelized and cooked through.
+						</li>
+						<li class="step">
+							Sprinkle with sesame seeds and black pepper. Serve with lettuce wraps, ssamjang, and
+							rice.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Asian pear is essential! It tenderizes the meat and adds
+					natural sweetness to the marinade.
+				</div>
+			</div>
+
+			<!-- Recipe 10: Jjajangmyeon -->
+			<div class="page recipe">
+				<div class="recipe-header">
+					<div class="recipe-number">Recipe #10</div>
+					<h2>짜장면</h2>
+					<h3>Jjajangmyeon (Black Bean Noodles)</h3>
+					<div class="recipe-meta">
+						<div class="meta-item"><span>⏱️</span> 35 mins</div>
+						<div class="meta-item"><span>👥</span> 4 servings</div>
+						<div class="meta-item"><span>🔥</span> Medium</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>🛒 Ingredients</h4>
+					<div class="ingredients-grid">
+						<div class="ingredient">• 400g fresh or dried jjajangmyeon noodles</div>
+						<div class="ingredient">• 200g pork belly, diced</div>
+						<div class="ingredient">• 1 onion, diced</div>
+						<div class="ingredient">• 1 zucchini, diced</div>
+						<div class="ingredient">• 1 potato, diced</div>
+						<div class="ingredient">• 5 tbsp chunjang (black bean paste)</div>
+						<div class="ingredient">• 2 tbsp vegetable oil</div>
+						<div class="ingredient">• 2 cups water</div>
+						<div class="ingredient">• 1 tbsp sugar</div>
+						<div class="ingredient">• Cucumber slices for garnish</div>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>👨‍🍳 Instructions</h4>
+					<ol class="steps">
+						<li class="step">
+							Cook noodles according to package instructions. Drain and rinse with cold water. Set
+							aside.
+						</li>
+						<li class="step">
+							Heat 1 tbsp oil in a wok. Add chunjang and fry for 2 minutes over low heat until
+							fragrant. Set aside.
+						</li>
+						<li class="step">In the same wok, heat remaining oil and cook pork until crispy.</li>
+						<li class="step">Add onion, potato, and zucchini. Stir-fry for 5 minutes.</li>
+						<li class="step">
+							Add the fried chunjang, water, and sugar. Bring to a boil, then simmer for 10 minutes
+							until vegetables are tender and sauce thickens.
+						</li>
+						<li class="step">
+							Place noodles in bowls, pour the black bean sauce over them. Garnish with cucumber
+							slices. Mix well before eating.
+						</li>
+					</ol>
+				</div>
+
+				<div class="tip-box">
+					<strong>💡 Pro Tip:</strong> Frying the chunjang first removes the raw bean taste and
+					enhances the flavor!
+				</div>
+			</div>
+
+			<!-- Back Cover -->
+			<div class="page back-cover">
+				<h2>맛있게 드세요!</h2>
+				<h2>Enjoy Your Meal!</h2>
+				<p>
+					Thank you for downloading this Korean cookbook. We hope these authentic recipes bring the
+					delicious flavors of Korea into your kitchen.
+				</p>
+				<p>
+					Share your cooking adventures with us on social media using
+					<strong>#KoreanCookingAtHome</strong>
+				</p>
+				<div class="emoji" style="font-size: 80px; margin: 40px 0">🍜 🥢 ❤️</div>
+				<p style="font-size: 16px; opacity: 0.8">
+					© 2025 Korean Cookbook | All recipes tested and approved
+				</p>
+				<div class="social-links">
+					<div class="social-link">📸</div>
+					<div class="social-link">🐦</div>
+					<div class="social-link">📘</div>
+					<div class="social-link">📹</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
