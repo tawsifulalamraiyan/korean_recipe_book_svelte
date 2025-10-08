@@ -30,15 +30,13 @@
 				return;
 			}
 
-			const link = document.createElement('a');
-			link.href = pdfUrl;
-			link.download = 'korean_recipe_book.pdf'; // name of the downloaded file
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-
 			const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
-
+			if (res.data.success) {
+				const link = document.createElement('a');
+				link.href = pdfUrl;
+				link.download = 'korean_recipe_book.pdf';
+				link.click();
+			}
 			console.log(res.data);
 
 			toast.success('Submitted successfully');
