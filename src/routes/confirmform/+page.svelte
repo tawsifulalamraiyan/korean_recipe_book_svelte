@@ -48,8 +48,8 @@
 			email = '';
 			phonenumber = '';
 			review = '';
-		} catch (err) {
-			console.log(err);
+		} catch (error) {
+			console.log(error);
 			error = '❌ Something went wrong. Please try again.';
 			toast.error('Submission failed');
 		} finally {
