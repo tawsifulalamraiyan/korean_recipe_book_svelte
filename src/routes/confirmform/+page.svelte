@@ -15,13 +15,8 @@
 	const handlesubmit = async () => {
 		const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
 		const data = res.data;
-		if (data.success) {
-			const link = document.createElement('a');
-			link.href = pdfUrl;
-			link.download = 'korean_recipe_book.pdf';
-			link.click();
-		}
-		console.log(res.data);
+
+		console.log(data);
 
 		toast.success('Submitted successfully');
 		success = '✅ Form submitted successfully! Your data has been saved.';
