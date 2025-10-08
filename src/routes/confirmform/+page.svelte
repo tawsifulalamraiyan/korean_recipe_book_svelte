@@ -13,60 +13,47 @@
 	const pdfUrl = '/book.pdf';
 
 	const handlesubmit = async () => {
-		const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
-		const data = res.data;
+		try {
+			Loading = true;
+			error = '';
+			success = '';
 
-		console.log(data);
+			setTimeout(() => {
+				success = '';
+				error = '';
+			}, 4000);
 
-		toast.success('Submitted successfully');
-		success = '✅ Form submitted successfully! Your data has been saved.';
+			if (!name || !email || !phonenumber || !review) {
+				toast.error('Please fill the details');
+				error = ' Please fill the details.';
+				Loading = false;
+				return;
+			}
 
-		name = '';
-		email = '';
-		phonenumber = '';
-		review = '';
+			const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
+			const data = res.data;
+			if (data.success) {
+				const link = document.createElement('a');
+				link.href = pdfUrl;
+				link.download = 'korean_recipe_book.pdf';
+				link.click();
+			}
+			console.log(res.data);
 
-		// try {
-		// 	Loading = true;
-		// 	error = '';
-		// 	success = '';
+			toast.success('Submitted successfully');
+			success = '✅ Form submitted successfully! Your data has been saved.';
 
-		// 	setTimeout(() => {
-		// 		success = '';
-		// 		error = '';
-		// 	}, 4000);
-
-		// 	if (!name || !email || !phonenumber || !review) {
-		// 		toast.error('Please fill the details');
-		// 		error = ' Please fill the details.';
-		// 		Loading = false;
-		// 		return;
-		// 	}
-
-		// 	const res = await axios.post('/api/userdata', { name, email, phonenumber, review });
-		// 	const data = res.data;
-		// 	if (data.success) {
-		// 		const link = document.createElement('a');
-		// 		link.href = pdfUrl;
-		// 		link.download = 'korean_recipe_book.pdf';
-		// 		link.click();
-		// 	}
-		// 	console.log(res.data);
-
-		// 	toast.success('Submitted successfully');
-		// 	success = '✅ Form submitted successfully! Your data has been saved.';
-
-		// 	name = '';
-		// 	email = '';
-		// 	phonenumber = '';
-		// 	review = '';
-		// } catch (error) {
-		// 	console.log(error);
-		// 	error = '❌ Something went wrong. Please try again.';
-		// 	toast.error('Submission failed');
-		// } finally {
-		// 	Loading = false;
-		// }
+			name = '';
+			email = '';
+			phonenumber = '';
+			review = '';
+		} catch (error) {
+			console.log(error);
+			error = '❌ Something went wrong. Please try again.';
+			toast.error('Submission failed');
+		} finally {
+			Loading = false;
+		}
 	};
 </script>
 
@@ -187,9 +174,10 @@
 				<!-- Right Section - Form -->
 				<section class="w-full">
 					<form on:submit={handlesubmit}>
-						<input type="text" placeholder="Your name" bind:value={name} />
+						<input type="text" placeholder="Your Name" bind:value={name} />
 						<input type="email" placeholder="Email address" bind:value={email} />
 						<input type="number" bind:value={phonenumber} placeholder="Phone Number" />
+						<textarea placeholder="Write a review...." bind:value={review}></textarea>
 						<button type="submit">Submit and Download</button>
 					</form>
 
